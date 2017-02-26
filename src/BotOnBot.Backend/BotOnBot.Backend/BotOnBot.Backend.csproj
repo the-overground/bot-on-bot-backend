@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Networking\" />
+    <ProjectReference Include="..\BotOnBot.Backend.DataModel\BotOnBot.Backend.DataModel.csproj" />
   </ItemGroup>
 
 </Project>

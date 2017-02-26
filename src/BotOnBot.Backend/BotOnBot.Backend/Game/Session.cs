@@ -1,4 +1,5 @@
 ﻿using System;
+using BotOnBot.Backend.DataModel;
 
 namespace BotOnBot.Backend.Game
 {
@@ -7,11 +8,35 @@ namespace BotOnBot.Backend.Game
     /// </summary>
     internal class Session
     {
-        private Guid _id;
+        private SessionModel _dataModel;
+
+        internal string Id { get; private set; }
+        internal int CurrentTurn { get; private set; }
+
+        internal DateTime StartTime { get; private set; }
 
         internal Session()
         {
-            _id = Guid.NewGuid();
+            Id = Guid.NewGuid().ToString();
+            _dataModel = new SessionModel
+            {
+                MaximumCarryCapacity = 10,
+                MaximumLemmingsPerPlayer = 20,
+                TickDuration = 3000,
+                AIInformation = new AIInformationModel[] { },
+                YourId = "",
+            };
+            CurrentTurn = 1;
+        }
+
+        internal void Initialize()
+        {
+            StartTime = DateTime.UtcNow;
+        }
+
+        internal string GetData()
+        {
+            return Serializer.Serialize(_dataModel);
         }
     }
 }

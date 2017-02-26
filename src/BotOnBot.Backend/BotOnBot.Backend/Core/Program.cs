@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BotOnBot.Backend
+namespace BotOnBot.Backend.Core
 {
     internal static class Program
     {

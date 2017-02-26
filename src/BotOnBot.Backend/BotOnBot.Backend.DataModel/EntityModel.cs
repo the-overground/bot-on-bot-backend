@@ -19,5 +19,8 @@ namespace BotOnBot.Backend.DataModel
 
         [JsonProperty(PropertyName = "rotation")]
         public int Rotation;
+
+        [JsonProperty(PropertyName = "args")]
+        public ArgumentModel[] Arguments;
     }
 }

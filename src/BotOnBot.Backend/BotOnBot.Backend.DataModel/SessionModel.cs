@@ -17,6 +17,9 @@ namespace BotOnBot.Backend.DataModel
         [JsonProperty(PropertyName = "aiInfo")]
         public AIInformationModel[] AIInformation;
 
+        [JsonProperty(PropertyName = "ownId")]
+        public string YourId;
+
         [JsonProperty(PropertyName = "mapData")]
         public GameMapModel GameMap;
     }

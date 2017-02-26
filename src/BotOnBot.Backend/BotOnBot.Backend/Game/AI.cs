@@ -1,24 +1,31 @@
-﻿using System.IO;
-using System.Net.Sockets;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using BotOnBot.Backend.Core;
+using BotOnBot.Backend.DataModel;
+using BotOnBot.Backend.Networking;
 
 namespace BotOnBot.Backend.Game
 {
     internal sealed class AI
     {
-        private readonly TcpClient _client;
+        private readonly AIClient _client;
+        private AIInformationModel _dataModel;
         private bool _sentSession = false;
 
-        internal AI(TcpClient client)
+        internal string Id => _dataModel.Id;
+
+        internal AI(AIClient client)
         {
             _client = client;
+            _dataModel = _client.DataModel;
         }
 
-        internal async Task SendGameSession(string data)
+        internal async Task Start(string sessionData)
         {
-            using (StreamWriter sw = new StreamWriter(_client.GetStream()))
+            ConsoleLogger.LogGameEvent($"Send session data to new AI ({_dataModel.Name} by {_dataModel.Author}).");
+
+            using (var sw = StreamFactory.CreateWriter(_client.TcpClient.GetStream()))
             {
-                await sw.WriteAsync(data);
+                await sw.WriteLineAsync(sessionData);
             }
 
             _sentSession = true;

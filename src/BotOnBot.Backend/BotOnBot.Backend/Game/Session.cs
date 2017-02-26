@@ -18,20 +18,23 @@ namespace BotOnBot.Backend.Game
         internal Session()
         {
             Id = Guid.NewGuid().ToString();
+            CurrentTurn = 1;
+            StartTime = DateTime.UtcNow;
+
             _dataModel = new SessionModel
             {
                 MaximumCarryCapacity = 10,
                 MaximumLemmingsPerPlayer = 20,
                 TickDuration = 3000,
-                AIInformation = new AIInformationModel[] { },
-                YourId = "",
+                AIInformation = new AIInformationModel[0],
+                YourId = ""
             };
-            CurrentTurn = 1;
         }
 
-        internal void Initialize()
+        internal void Start()
         {
-            StartTime = DateTime.UtcNow;
+            // generate the map from the id here: 
+            _dataModel.GameMap = GameMap.GenerateModel(Id.GetHashCode());
         }
 
         internal string GetData()

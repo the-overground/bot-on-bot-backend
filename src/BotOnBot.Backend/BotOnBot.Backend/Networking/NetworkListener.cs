@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 using BotOnBot.Backend.Core;
 
 namespace BotOnBot.Backend.Networking
@@ -8,7 +9,7 @@ namespace BotOnBot.Backend.Networking
     internal abstract class NetworkListener
     {
         private readonly int _port;
-        protected readonly List<TcpClient> _clients = new List<TcpClient>();
+        protected readonly List<NetworkClient> _clients = new List<NetworkClient>();
 
         private TcpListener _listener;
         private bool _isListening;
@@ -30,7 +31,7 @@ namespace BotOnBot.Backend.Networking
             while (_isListening)
             {
                 var client = await _listener.AcceptTcpClientAsync();
-                AddClient(client);
+                await AddClient(client);
             }
         }
 
@@ -40,9 +41,6 @@ namespace BotOnBot.Backend.Networking
             _isListening = false;
         }
 
-        protected virtual void AddClient(TcpClient client)
-        {
-            _clients.Add(client);
-        }
+        protected virtual async Task AddClient(TcpClient client) { }
     }
 }

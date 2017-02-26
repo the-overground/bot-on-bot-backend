@@ -8,8 +8,11 @@ namespace BotOnBot.Backend.DataModel
         [JsonProperty(PropertyName = "id")]
         public string Id;
 
-        [JsonProperty(PropertyName = "tileId")]
-        public string TileId;
+        [JsonProperty(PropertyName = "ownerId")]
+        public string OwnerId;
+
+        [JsonProperty(PropertyName = "entityId")]
+        public string EntityId;
 
         [JsonProperty(PropertyName = "command")]
         public string Command;

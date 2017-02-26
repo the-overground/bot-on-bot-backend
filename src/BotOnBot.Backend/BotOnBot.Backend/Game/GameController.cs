@@ -8,8 +8,7 @@ namespace BotOnBot.Backend.Game
 {
     internal sealed class GameController
     {
-        private AI[] _participatingAIs;
-
+        internal AI[] ParticipatingAIs { get; private set; }
         internal Session Session { get; private set; }
         internal bool IsRunning { get; private set; }
         
@@ -18,7 +17,6 @@ namespace BotOnBot.Backend.Game
             IsRunning = true;
 
             Session = new Session();
-            Session.Initialize();
 
             ConsoleLogger.LogGameEvent($"Started game session | id: {Session.Id}");
 
@@ -28,12 +26,14 @@ namespace BotOnBot.Backend.Game
 
         internal void Start(IEnumerable<AI> participatingAIs)
         {
-            _participatingAIs = participatingAIs.ToArray();
+            ParticipatingAIs = participatingAIs.ToArray();
+
+            Session.Start();
 
             var data = Session.GetData();
-            foreach (var ai in _participatingAIs)
+            foreach (var ai in ParticipatingAIs)
             {
-                Task.Run(() => ai.SendGameSession(data));
+                Task.Run(() => ai.Start(data));
             }
         }
     }

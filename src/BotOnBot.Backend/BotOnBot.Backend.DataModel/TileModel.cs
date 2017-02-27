@@ -19,5 +19,12 @@ namespace BotOnBot.Backend.DataModel
 
         [JsonProperty(PropertyName = "y")]
         public int Y;
+        
+        public ISerializable Clone()
+        {
+            var model = (TileModel)MemberwiseClone();
+            model.Entity = (EntityModel)Entity?.Clone();
+            return model;
+        }
     }
 }

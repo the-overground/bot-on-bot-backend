@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Linq;
+using Newtonsoft.Json;
 
 namespace BotOnBot.Backend.DataModel
 {
@@ -7,5 +8,12 @@ namespace BotOnBot.Backend.DataModel
     {
         [JsonProperty(PropertyName = "tiles")]
         public TileModel[] Tiles;
+
+        public ISerializable Clone()
+        {
+            var model = (GameMapModel)MemberwiseClone();
+            model.Tiles = Tiles.Select(t => (TileModel)t.Clone()).ToArray();
+            return model;
+        }
     }
 }

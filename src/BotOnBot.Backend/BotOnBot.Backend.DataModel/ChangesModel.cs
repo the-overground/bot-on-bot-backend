@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Linq;
+using Newtonsoft.Json;
 
 namespace BotOnBot.Backend.DataModel
 {
@@ -10,5 +11,12 @@ namespace BotOnBot.Backend.DataModel
 
         [JsonProperty(PropertyName = "currentTurn")]
         public int CurrentTurn;
+
+        public ISerializable Clone()
+        {
+            var model = (ChangesModel)MemberwiseClone();
+            model.Tiles = Tiles.Select(t => (TileModel)t.Clone()).ToArray();
+            return model;
+        }
     }
 }

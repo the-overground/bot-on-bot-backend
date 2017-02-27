@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Linq;
+using Newtonsoft.Json;
 
 namespace BotOnBot.Backend.DataModel
 {
@@ -22,5 +23,12 @@ namespace BotOnBot.Backend.DataModel
 
         [JsonProperty(PropertyName = "args")]
         public ArgumentModel[] Arguments;
+        
+        public ISerializable Clone()
+        {
+            var model = (EntityModel)MemberwiseClone();
+            model.Arguments = Arguments.Select(a => (ArgumentModel)a.Clone()).ToArray();
+            return model;
+        }
     }
 }

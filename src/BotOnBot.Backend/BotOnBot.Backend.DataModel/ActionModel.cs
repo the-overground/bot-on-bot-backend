@@ -16,5 +16,8 @@ namespace BotOnBot.Backend.DataModel
 
         [JsonProperty(PropertyName = "command")]
         public string Command;
+
+        public ISerializable Clone()
+            => (ActionModel)MemberwiseClone();
     }
 }

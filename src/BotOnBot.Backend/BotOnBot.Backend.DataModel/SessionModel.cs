@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Linq;
+using Newtonsoft.Json;
 
 namespace BotOnBot.Backend.DataModel
 {
@@ -22,5 +23,13 @@ namespace BotOnBot.Backend.DataModel
 
         [JsonProperty(PropertyName = "mapData")]
         public GameMapModel GameMap;
+
+        public ISerializable Clone()
+        {
+            var model = (SessionModel)MemberwiseClone();
+            model.AIInformation = AIInformation.Select(a => (AIInformationModel)a.Clone()).ToArray();
+            model.GameMap = (GameMapModel)GameMap.Clone();
+            return model;
+        }
     }
 }

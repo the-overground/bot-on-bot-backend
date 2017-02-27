@@ -12,21 +12,23 @@ namespace BotOnBot.Backend.Networking
         internal AIClient(TcpClient client)
             : base(client)
         { }
-
+        
         internal async Task ListenForInitialMessage()
         {
             // read id data from the stream first:
-            using (var sr = StreamFactory.CreateReader(TcpClient.GetStream()))
+            string idData = await ReadNextMessage();
+            var idModel = Serializer.Deserialize<AIIdentificationModel>(idData);
+            DataModel = new AIInformationModel
             {
-                string idData = await sr.ReadLineAsync();
-                var idModel = Serializer.Deserialize<AIIdentificationModel>(idData);
-                DataModel = new AIInformationModel
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Author = idModel.Author,
-                    Name = idModel.Name
-                };
-            }
+                Id = Guid.NewGuid().ToString(),
+                Author = idModel.Author,
+                Name = idModel.Name
+            };
+        }
+
+        internal async Task SendSessionData(string sessionData)
+        {
+            await WriteMessage(sessionData);
         }
     }
 }

@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using BotOnBot.Backend.Core;
-using BotOnBot.Backend.DataModel;
 using BotOnBot.Backend.Game;
 using static Core;
 
@@ -13,9 +11,7 @@ namespace BotOnBot.Backend.Networking
     {
         private const int AI_PORT = 1337;
         private const int MAX_PLAYERS = 1;
-
-        private List<AIInformationModel> _informationModels = new List<AIInformationModel>();
-
+        
         public AIListener()
             : base(AI_PORT)
         { }

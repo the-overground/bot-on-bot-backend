@@ -1,4 +1,7 @@
 ﻿namespace BotOnBot.Backend.DataModel
 {
-    public interface ISerializable { }
+    public interface ISerializable
+    {
+        ISerializable Clone();
+    }
 }

@@ -8,27 +8,20 @@ namespace BotOnBot.Backend.Game
     internal sealed class AI
     {
         private readonly AIClient _client;
-        private AIInformationModel _dataModel;
-        private bool _sentSession = false;
 
-        internal string Id => _dataModel.Id;
+        internal AIInformationModel DataModel { get; private set; }
+        internal string Id => DataModel.Id;
 
         internal AI(AIClient client)
         {
             _client = client;
-            _dataModel = _client.DataModel;
+            DataModel = _client.DataModel;
         }
 
         internal async Task Start(string sessionData)
         {
-            ConsoleLogger.LogGameEvent($"Send session data to new AI ({_dataModel.Name} by {_dataModel.Author}).");
-
-            using (var sw = StreamFactory.CreateWriter(_client.TcpClient.GetStream()))
-            {
-                await sw.WriteLineAsync(sessionData);
-            }
-
-            _sentSession = true;
+            ConsoleLogger.LogGameEvent($"Send session data to new AI (\"{DataModel.Name}\" by \"{DataModel.Author}\").");
+            await _client.SendSessionData(sessionData);
         }
     }
 }

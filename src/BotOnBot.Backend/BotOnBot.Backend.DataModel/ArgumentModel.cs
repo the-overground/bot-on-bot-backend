@@ -10,5 +10,8 @@ namespace BotOnBot.Backend.DataModel
 
         [JsonProperty(PropertyName = "value")]
         public string Value;
+
+        public ISerializable Clone()
+            => (ArgumentModel)MemberwiseClone();
     }
 }

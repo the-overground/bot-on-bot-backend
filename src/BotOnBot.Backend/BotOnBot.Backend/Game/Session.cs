@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using BotOnBot.Backend.DataModel;
 
 namespace BotOnBot.Backend.Game
@@ -10,6 +11,7 @@ namespace BotOnBot.Backend.Game
     {
         private SessionModel _dataModel;
 
+        internal AI[] Participants { get; private set; }
         internal string Id { get; private set; }
         internal int CurrentTurn { get; private set; }
 
@@ -31,12 +33,28 @@ namespace BotOnBot.Backend.Game
             };
         }
 
-        internal void Start()
+        internal void Start(AI[] ais)
         {
+            Participants = ais;
+            _dataModel.AIInformation = ais.Select(a => a.DataModel).ToArray();
+
             // generate the map from the id here: 
-            _dataModel.GameMap = GameMap.GenerateModel(Id.GetHashCode());
+            _dataModel.GameMap = MapFactory.GenerateModel(Id.GetHashCode());
+        }
+        
+        /// <summary>
+        /// Returns the session data with reduced map visibility.
+        /// </summary>
+        internal string GetData(AI ai)
+        {
+            var filteredModel = GameMap.FilterModelForAI(ai, _dataModel);
+            filteredModel.YourId = ai.Id;
+            return Serializer.Serialize(filteredModel);
         }
 
+        /// <summary>
+        /// Returns the entire map data for viewer clients.
+        /// </summary>
         internal string GetData()
         {
             return Serializer.Serialize(_dataModel);

@@ -15,8 +15,8 @@ namespace BotOnBot.Backend.DataModel
         [JsonProperty(PropertyName = "tickDuration")]
         public int TickDuration;
 
-        [JsonProperty(PropertyName = "aiInfo")]
-        public AIInformationModel[] AIInformation;
+        [JsonProperty(PropertyName = "botInfo")]
+        public BotInformationModel[] BotInformation;
 
         [JsonProperty(PropertyName = "ownId")]
         public string YourId;
@@ -27,7 +27,7 @@ namespace BotOnBot.Backend.DataModel
         public ISerializable Clone()
         {
             var model = (SessionModel)MemberwiseClone();
-            model.AIInformation = AIInformation.Select(a => (AIInformationModel)a.Clone()).ToArray();
+            model.BotInformation = BotInformation.Select(a => (BotInformationModel)a.Clone()).ToArray();
             model.GameMap = (GameMapModel)GameMap.Clone();
             return model;
         }

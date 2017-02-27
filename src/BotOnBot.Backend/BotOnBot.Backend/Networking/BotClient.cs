@@ -5,11 +5,11 @@ using BotOnBot.Backend.DataModel;
 
 namespace BotOnBot.Backend.Networking
 {
-    internal sealed class AIClient : NetworkClient
+    internal sealed class BotClient : NetworkClient
     {
-        internal AIInformationModel DataModel { get; private set; }
+        internal BotInformationModel DataModel { get; private set; }
 
-        internal AIClient(TcpClient client)
+        internal BotClient(TcpClient client)
             : base(client)
         { }
         
@@ -17,8 +17,8 @@ namespace BotOnBot.Backend.Networking
         {
             // read id data from the stream first:
             string idData = await ReadNextMessage();
-            var idModel = Serializer.Deserialize<AIIdentificationModel>(idData);
-            DataModel = new AIInformationModel
+            var idModel = Serializer.Deserialize<BotIdentificationModel>(idData);
+            DataModel = new BotInformationModel
             {
                 Id = Guid.NewGuid().ToString(),
                 Author = idModel.Author,

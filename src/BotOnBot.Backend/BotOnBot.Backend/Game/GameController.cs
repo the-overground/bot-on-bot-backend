@@ -27,17 +27,17 @@ namespace BotOnBot.Backend.Game
 
             ConsoleLogger.LogGameEvent($"Started game session | id: {Session.Id}");
 
-            var aiListener = new AIListener();
-            Task.Run(() => aiListener.StartListening());
+            var botListener = new BotListener();
+            Task.Run(() => botListener.StartListening());
         }
 
-        internal void Start(IEnumerable<AI> participatingAIs)
+        internal void Start(IEnumerable<Bot> participatingBots)
         {
-            Session.Start(participatingAIs.ToArray());
+            Session.Start(participatingBots.ToArray());
 
-            foreach (var ai in Session.Participants)
+            foreach (var bot in Session.Participants)
             {
-                Task.Run(() => ai.Start(Session.GetData(ai)));
+                Task.Run(() => bot.Start(Session.GetData(bot)));
             }
 
             Started = true;

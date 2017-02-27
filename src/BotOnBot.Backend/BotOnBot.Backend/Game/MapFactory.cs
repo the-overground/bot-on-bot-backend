@@ -62,7 +62,7 @@ namespace BotOnBot.Backend.Game
             return model;
         }
 
-        private static EntityModel CreateBase(AI owner)
+        private static EntityModel CreateBase(Bot owner)
             => new EntityModel
             {
                 Id = Guid.NewGuid().ToString(),

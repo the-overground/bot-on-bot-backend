@@ -7,11 +7,11 @@ namespace BotOnBot.Backend.Game
 {
     internal static class GameMap
     {
-        internal static SessionModel FilterModelForAI(AI ai, SessionModel dataModel)
+        internal static SessionModel FilterModelForBot(Bot bot, SessionModel dataModel)
         {
             Point[] ownedTilePositions =
                 dataModel.GameMap.Tiles
-                    .Where(t => t.Entity != null && t.Entity.OwnerId == ai.Id)
+                    .Where(t => t.Entity != null && t.Entity.OwnerId == bot.Id)
                     .Select(t => new Point(t.X, t.Y)).ToArray();
 
             var filteredPositions = new List<Point>();

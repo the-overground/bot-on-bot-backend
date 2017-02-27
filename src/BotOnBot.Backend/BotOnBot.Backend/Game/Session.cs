@@ -5,13 +5,13 @@ using BotOnBot.Backend.DataModel;
 namespace BotOnBot.Backend.Game
 {
     /// <summary>
-    /// Represents a game session that clients (AI/viewer) can connect to, identified by a random guid.
+    /// Represents a game session that clients (Bot/viewer) can connect to, identified by a random guid.
     /// </summary>
     internal class Session
     {
         private SessionModel _dataModel;
 
-        internal AI[] Participants { get; private set; }
+        internal Bot[] Participants { get; private set; }
         internal string Id { get; private set; }
         internal int CurrentTurn { get; private set; }
 
@@ -28,27 +28,27 @@ namespace BotOnBot.Backend.Game
                 MaximumCarryCapacity = 10,
                 MaximumLemmingsPerPlayer = 20,
                 TickDuration = 3000,
-                AIInformation = new AIInformationModel[0],
+                BotInformation = new BotInformationModel[0],
                 YourId = ""
             };
         }
 
-        internal void Start(AI[] ais)
+        internal void Start(Bot[] bots)
         {
-            Participants = ais;
-            _dataModel.AIInformation = ais.Select(a => a.DataModel).ToArray();
+            Participants = bots;
+            _dataModel.BotInformation = bots.Select(a => a.DataModel).ToArray();
 
             // generate the map from the id here: 
             _dataModel.GameMap = MapFactory.GenerateModel(Id.GetHashCode());
         }
         
         /// <summary>
-        /// Returns the session data with reduced map visibility.
+        /// Returns the session data for a particular bot.
         /// </summary>
-        internal string GetData(AI ai)
+        internal string GetData(Bot bot)
         {
-            var filteredModel = GameMap.FilterModelForAI(ai, _dataModel);
-            filteredModel.YourId = ai.Id;
+            var filteredModel = GameMap.FilterModelForBot(bot, _dataModel);
+            filteredModel.YourId = bot.Id;
             return Serializer.Serialize(filteredModel);
         }
 

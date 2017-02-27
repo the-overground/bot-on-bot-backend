@@ -5,14 +5,14 @@ using BotOnBot.Backend.Networking;
 
 namespace BotOnBot.Backend.Game
 {
-    internal sealed class AI
+    internal sealed class Bot
     {
-        private readonly AIClient _client;
+        private readonly BotClient _client;
 
-        internal AIInformationModel DataModel { get; private set; }
+        internal BotInformationModel DataModel { get; private set; }
         internal string Id => DataModel.Id;
 
-        internal AI(AIClient client)
+        internal Bot(BotClient client)
         {
             _client = client;
             DataModel = _client.DataModel;
@@ -20,7 +20,7 @@ namespace BotOnBot.Backend.Game
 
         internal async Task Start(string sessionData)
         {
-            ConsoleLogger.LogGameEvent($"Send session data to new AI (\"{DataModel.Name}\" by \"{DataModel.Author}\").");
+            ConsoleLogger.LogGameEvent($"Send session data to new Bot (\"{DataModel.Name}\" by \"{DataModel.Author}\").");
             await _client.SendSessionData(sessionData);
         }
     }

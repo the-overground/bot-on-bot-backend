@@ -9,11 +9,11 @@ namespace BotOnBot.Backend.Networking
 {
     internal sealed class BotListener : NetworkListener
     {
-        private const int BOT_PORT = 1337;
+        private const int PORT = 1337;
         private const int MAX_BOTS = 1;
         
         public BotListener()
-            : base(BOT_PORT)
+            : base(PORT)
         { }
 
         protected override async Task AddClient(TcpClient client)

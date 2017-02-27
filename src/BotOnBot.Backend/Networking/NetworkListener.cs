@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
@@ -39,6 +40,18 @@ namespace BotOnBot.Backend.Networking
         {
             _listener.Stop();
             _isListening = false;
+        }
+
+        protected async Task RejectClientConnection(TcpClient client)
+        {
+            // send rejection notice:
+            using (StreamWriter sw = StreamFactory.CreateWriter(client.GetStream()))
+            {
+                await sw.WriteLineAsync("REJECTED");
+            }
+
+            // close stream and dispose resources.
+            client.Dispose();
         }
 
         protected virtual async Task AddClient(TcpClient client) { }

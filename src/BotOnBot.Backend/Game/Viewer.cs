@@ -14,10 +14,10 @@ namespace BotOnBot.Backend.Game
             _client = client;
         }
 
-        internal async Task Start()
+        internal async Task Start(string sessionData)
         {
             ConsoleLogger.LogGameEvent($"Send session data to new viewer.");
-            await _client.SendSessionData("");
+            await _client.SendSessionData(sessionData);
         }
     }
 }

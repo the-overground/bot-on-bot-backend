@@ -18,7 +18,7 @@ namespace BotOnBot.Backend.Game
         /// If the game session has started.
         /// </summary>
         internal bool Started { get; private set; }
-        
+
         internal void Initialize()
         {
             IsRunning = true;
@@ -29,15 +29,21 @@ namespace BotOnBot.Backend.Game
 
             var botListener = new BotListener();
             Task.Run(() => botListener.StartListening());
+            var viewerListener = new ViewerListener();
+            Task.Run(() => viewerListener.StartListening());
         }
 
-        internal void Start(IEnumerable<Bot> participatingBots)
+        internal async void Start(IEnumerable<Bot> participatingBots)
         {
             Session.Start(participatingBots.ToArray());
 
             foreach (var bot in Session.Participants)
             {
-                Task.Run(() => bot.Start(Session.GetData(bot)));
+                await Task.Run(() => bot.Start(Session.GetData(bot)));
+            }
+            foreach (var viewer in Viewers)
+            {
+                await Task.Run(() => viewer.Start(Session.GetData()));
             }
 
             Started = true;
@@ -48,7 +54,7 @@ namespace BotOnBot.Backend.Game
             Viewers.Add(viewer);
             if (Started)
             {
-                await viewer.Start();
+                await viewer.Start(Session.GetData());
             }
         }
     }

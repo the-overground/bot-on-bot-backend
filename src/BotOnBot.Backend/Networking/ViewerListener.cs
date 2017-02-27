@@ -22,7 +22,7 @@ namespace BotOnBot.Backend.Networking
             // wants to get added, it gets rejected.
             if (viewerClient.IsLocalhost && CheckForLocalViewer())
             {
-                RejectClientConnection(client);
+                await RejectClientConnection(client);
             }
             else
             {

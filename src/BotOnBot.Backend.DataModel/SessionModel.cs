@@ -4,8 +4,13 @@ using Newtonsoft.Json;
 namespace BotOnBot.Backend.DataModel
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class SessionModel : ISerializable
+    public sealed class SessionModel : NetworkResponseModel
     {
+        public SessionModel()
+        {
+            ResponseStatus = ResponseStatusType.Ok.ToString();
+        }
+
         [JsonProperty(PropertyName = "maxCarryCap")]
         public int MaximumCarryCapacity;
 
@@ -24,7 +29,7 @@ namespace BotOnBot.Backend.DataModel
         [JsonProperty(PropertyName = "mapData")]
         public GameMapModel GameMap;
 
-        public ISerializable Clone()
+        public override ISerializable Clone()
         {
             var model = (SessionModel)MemberwiseClone();
             model.BotInformation = BotInformation.Select(a => (BotInformationModel)a.Clone()).ToArray();

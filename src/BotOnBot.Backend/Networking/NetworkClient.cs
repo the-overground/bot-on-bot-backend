@@ -1,14 +1,17 @@
 ﻿using System.Net.Sockets;
 using System.Threading.Tasks;
+using BotOnBot.Backend.DataModel;
 
 namespace BotOnBot.Backend.Networking
 {
     internal abstract class NetworkClient
     {
-        protected TcpClient TcpClient { get; private set; }
+        private NetworkListener _listener;
+        internal TcpClient TcpClient { get; private set; }
 
-        protected NetworkClient(TcpClient client)
+        protected NetworkClient(NetworkListener creator, TcpClient client)
         {
+            _listener = creator;
             TcpClient = client;
         }
 
@@ -28,6 +31,16 @@ namespace BotOnBot.Backend.Networking
             {
                 await sw.WriteLineAsync(message);
             }
+        }
+
+        internal async Task Reject(string reason)
+        {
+            var messageModel = new RejectionResponseModel { Reason = reason };
+            var message = Serializer.Serialize(messageModel);
+            await WriteMessage(message);
+            TcpClient.Dispose();
+
+            _listener.StopListeningTo(this);
         }
     }
 }

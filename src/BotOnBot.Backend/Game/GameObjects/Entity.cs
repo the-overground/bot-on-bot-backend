@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using BotOnBot.Backend.Core;
+﻿using BotOnBot.Backend.Core;
 using BotOnBot.Backend.DataModel;
 
 namespace BotOnBot.Backend.Game.GameObjects

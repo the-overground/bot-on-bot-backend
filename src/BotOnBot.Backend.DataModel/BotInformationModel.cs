@@ -3,7 +3,7 @@
 namespace BotOnBot.Backend.DataModel
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class BotInformationModel : ISerializable
+    public sealed class BotInformationModel : ISerializable
     {
         [JsonProperty(PropertyName = "name")]
         public string Name;

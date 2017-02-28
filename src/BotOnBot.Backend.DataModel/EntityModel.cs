@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 namespace BotOnBot.Backend.DataModel
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class EntityModel : ISerializable
+    public sealed class EntityModel : ISerializable
     {
         [JsonProperty(PropertyName = "id")]
         public string Id;

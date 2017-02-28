@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using BotOnBot.Backend.Core;
+using BotOnBot.Backend.DataModel;
 
 namespace BotOnBot.Backend.Networking
 {
@@ -40,19 +41,15 @@ namespace BotOnBot.Backend.Networking
             _listener.Stop();
             _isListening = false;
         }
-
-        protected async Task RejectClientConnection(TcpClient client)
+        
+        internal void StopListeningTo(NetworkClient client)
         {
-            // send rejection notice:
-            using (var sw = StreamFactory.CreateWriter(client.GetStream()))
-            {
-                await sw.WriteLineAsync("REJECTED");
-            }
-
-            // close stream and dispose resources.
-            client.Dispose();
+            _clients.Remove(client);
         }
 
         protected virtual async Task AddClient(TcpClient client) { }
+
+        internal static string ResponseStatusToString(ResponseStatusType status)
+            => status.ToString().ToUpperInvariant();
     }
 }

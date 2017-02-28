@@ -12,7 +12,7 @@ namespace BotOnBot.Backend.Networking
         internal BotClient(TcpClient client)
             : base(client)
         { }
-        
+
         internal async Task ListenForInitialMessage()
         {
             // read id data from the stream first:

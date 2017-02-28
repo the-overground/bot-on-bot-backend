@@ -9,6 +9,7 @@ namespace BotOnBot.Backend.Networking
     internal sealed class ViewerListener : NetworkListener
     {
         internal const int PORT = 1338;
+        private const string REJECT_REASON_TOO_MANY_CLIENTS = "Too many viewer clients have connected.";
 
         public ViewerListener()
             : base(PORT)
@@ -22,7 +23,7 @@ namespace BotOnBot.Backend.Networking
             // wants to get added, it gets rejected.
             if (viewerClient.IsLocalhost && CheckForLocalViewer())
             {
-                await RejectClientConnection(client);
+                await viewerClient.Reject(REJECT_REASON_TOO_MANY_CLIENTS);
             }
             else
             {

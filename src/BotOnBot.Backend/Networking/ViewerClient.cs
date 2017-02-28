@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using BotOnBot.Backend.DataModel;
 
 namespace BotOnBot.Backend.Networking
 {

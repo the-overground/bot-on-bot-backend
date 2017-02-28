@@ -3,7 +3,7 @@
 namespace BotOnBot.Backend.DataModel
 {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-    public class ActionModel : ISerializable
+    public sealed class ActionModel : ISerializable
     {
         [JsonProperty(PropertyName = "id")]
         public string Id;

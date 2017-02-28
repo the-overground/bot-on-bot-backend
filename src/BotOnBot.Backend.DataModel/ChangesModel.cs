@@ -4,8 +4,13 @@ using Newtonsoft.Json;
 namespace BotOnBot.Backend.DataModel
 {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-    public class ChangesModel : ISerializable
+    public sealed class ChangesModel : NetworkResponseModel
     {
+        public ChangesModel()
+        {
+            ResponseStatus = ResponseStatusType.Ok.ToString();
+        }
+
         [JsonProperty(PropertyName = "tiles")]
         public TileModel[] Tiles;
 
@@ -18,7 +23,7 @@ namespace BotOnBot.Backend.DataModel
         [JsonProperty(PropertyName = "currentTurn")]
         public int CurrentTurn;
 
-        public ISerializable Clone()
+        public override ISerializable Clone()
         {
             var model = (ChangesModel)MemberwiseClone();
             model.Tiles = Tiles.Select(t => (TileModel)t.Clone()).ToArray();

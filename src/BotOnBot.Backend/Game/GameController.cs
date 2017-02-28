@@ -35,16 +35,21 @@ namespace BotOnBot.Backend.Game
 
         internal async void Start(IEnumerable<Bot> participatingBots)
         {
+            ConsoleLogger.LogGameEvent("All competing bots connected. Starting game.");
             Session.Start(participatingBots.ToArray());
 
+            var tasks = new List<Task>();
             foreach (var bot in Session.Participants)
             {
-                await Task.Run(() => bot.Start(Session.GetData(bot)));
+                tasks.Add(bot.Start(Session.GetData(bot)));
             }
             foreach (var viewer in Viewers)
             {
-                await Task.Run(() => viewer.Start(Session.GetData()));
+                tasks.Add(viewer.Start(Session.GetData()));
             }
+            await Task.WhenAll(tasks);
+            
+            ConsoleLogger.LogGameEvent("Finished sending initial session data.");
 
             Started = true;
         }

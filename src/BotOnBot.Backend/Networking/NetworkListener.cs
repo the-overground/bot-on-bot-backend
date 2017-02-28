@@ -42,8 +42,9 @@ namespace BotOnBot.Backend.Networking
             _isListening = false;
         }
         
-        internal void StopListeningTo(NetworkClient client)
+        protected void ClientDisconnected(NetworkClient client)
         {
+            client.Closed -= ClientDisconnected;
             _clients.Remove(client);
         }
 

@@ -17,7 +17,8 @@ namespace BotOnBot.Backend.Networking
 
         protected override async Task AddClient(TcpClient client)
         {
-            var viewerClient = new ViewerClient(this, client);
+            var viewerClient = new ViewerClient(client);
+            viewerClient.Closed += ClientDisconnected;
 
             // if we already have a local viewer client and another one
             // wants to get added, it gets rejected.

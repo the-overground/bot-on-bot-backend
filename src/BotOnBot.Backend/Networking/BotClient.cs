@@ -9,8 +9,8 @@ namespace BotOnBot.Backend.Networking
     {
         internal BotInformationModel DataModel { get; private set; }
 
-        internal BotClient(NetworkListener creator, TcpClient client)
-            : base(creator, client)
+        internal BotClient(TcpClient client)
+            : base(client)
         { }
 
         internal async Task ListenForInitialMessage()

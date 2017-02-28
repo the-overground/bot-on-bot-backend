@@ -1,4 +1,5 @@
-﻿using System.Net.Sockets;
+﻿using System;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using BotOnBot.Backend.DataModel;
 
@@ -6,12 +7,12 @@ namespace BotOnBot.Backend.Networking
 {
     internal abstract class NetworkClient
     {
-        private NetworkListener _listener;
+        internal event Action<NetworkClient> Closed;
+        
         internal TcpClient TcpClient { get; private set; }
 
-        protected NetworkClient(NetworkListener creator, TcpClient client)
+        protected NetworkClient(TcpClient client)
         {
-            _listener = creator;
             TcpClient = client;
         }
 
@@ -40,7 +41,7 @@ namespace BotOnBot.Backend.Networking
             await WriteMessage(message);
             TcpClient.Dispose();
 
-            _listener.StopListeningTo(this);
+            Closed?.Invoke(this);
         }
     }
 }

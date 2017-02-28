@@ -10,8 +10,8 @@ namespace BotOnBot.Backend.Networking
         private static readonly IPEndPoint _localhostViewerEndPoint
             = new IPEndPoint(IPAddress.Loopback, ViewerListener.PORT);
 
-        internal ViewerClient(TcpClient client)
-            : base(client)
+        internal ViewerClient(NetworkListener creator, TcpClient client)
+            : base(creator, client)
         { }
 
         internal async Task SendSessionData(string sessionData)

@@ -18,7 +18,7 @@ namespace BotOnBot.Backend.Networking
 
         protected override async Task AddClient(TcpClient client)
         {
-            var botClient = new BotClient(client);
+            var botClient = new BotClient(this, client);
             await botClient.ListenForInitialMessage();
             _clients.Add(botClient);
 

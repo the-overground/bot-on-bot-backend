@@ -19,7 +19,7 @@ namespace BotOnBot.Backend.Game
         /// </summary>
         internal bool Started { get; private set; }
 
-        internal void Initialize()
+        internal async Task Run()
         {
             IsRunning = true;
 
@@ -28,9 +28,14 @@ namespace BotOnBot.Backend.Game
             ConsoleLogger.LogGameEvent($"Started game session | id: {Session.Id}");
 
             var botListener = new BotListener();
-            Task.Run(() => botListener.StartListening());
             var viewerListener = new ViewerListener();
-            Task.Run(() => viewerListener.StartListening());
+
+            var tasks = new[]
+            {
+                botListener.StartListening(),
+                viewerListener.StartListening()
+            };
+            await Task.WhenAll(tasks);
         }
 
         internal async void Start(IEnumerable<Bot> participatingBots)

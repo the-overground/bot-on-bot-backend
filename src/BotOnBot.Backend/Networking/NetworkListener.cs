@@ -21,7 +21,7 @@ namespace BotOnBot.Backend.Networking
             _isListening = false;
         }
 
-        internal async void StartListening()
+        internal async Task StartListening()
         {
             _listener = new TcpListener(IPAddress.Any, _port);
             _listener.Start();

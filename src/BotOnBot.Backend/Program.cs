@@ -1,4 +1,5 @@
-﻿using BotOnBot.Backend.Game;
+﻿using System.Threading.Tasks;
+using BotOnBot.Backend.Game;
 
 internal static class Core
 {
@@ -7,9 +8,6 @@ internal static class Core
     internal static void Main(string[] args)
     {
         Controller = new GameController();
-        Controller.Initialize();
-
-        while (Controller.IsRunning)
-        { }
+        Task.WaitAll(Controller.Run());
     }
 }
